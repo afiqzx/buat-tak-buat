@@ -1,12 +1,9 @@
-use std::sync::Arc;
-
-use axum::{Extension, Form};
+use axum::Form;
 use maud::{html, Markup};
-use tokio::sync::Mutex;
 
-use crate::{main_template, TodoData, TodoForm};
+use crate::{main_template, TodoDB, TodoForm};
 
-pub async fn index(body: Extension<Arc<Mutex<TodoData>>>) -> Markup {
+pub async fn index(body: TodoDB) -> Markup {
     let todos = body.0.lock().await;
 
     let body = html! {
@@ -29,7 +26,7 @@ pub async fn index(body: Extension<Arc<Mutex<TodoData>>>) -> Markup {
     main_template(body)
 }
 
-pub async fn add_todo(body: Extension<Arc<Mutex<TodoData>>>, form: Form<TodoForm>) -> Markup {
+pub async fn add_todo(body: TodoDB, form: Form<TodoForm>) -> Markup {
     let arc = body.0.clone();
     let mut todos = arc.lock().await;
 

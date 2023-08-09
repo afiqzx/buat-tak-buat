@@ -1,7 +1,11 @@
 pub mod path;
 
+use std::sync::Arc;
+
+use axum::Extension;
 use maud::{html, Markup, DOCTYPE};
 use serde::Deserialize;
+use tokio::sync::Mutex;
 
 #[derive(Default)]
 pub struct TodoData {
@@ -26,3 +30,5 @@ pub(crate) fn main_template(body: Markup) -> Markup {
 pub struct TodoForm {
     pub todo_data: String,
 }
+
+pub type TodoDB = Extension<Arc<Mutex<TodoData>>>;
