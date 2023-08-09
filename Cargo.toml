@@ -1,0 +1,16 @@
+[package]
+name = "buat_tak_buat"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = [ "rlib" ]
+name = "buat_tak_buat_lib"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+
+[dependencies]
+axum = "0.6.20"
+maud = { version = "0.25.0", features = ["axum"] }
+tokio = { version = "1.29.1", features = ["full"] }
