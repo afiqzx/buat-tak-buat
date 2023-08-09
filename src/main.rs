@@ -1,18 +1,23 @@
-use maud::{html, Markup};
-use axum::{Router, routing::get};
+use std::sync::Arc;
 
-async fn hello_world() -> Markup {
-    html! {
-        h1 { "Hello, World!" }
-    }
-}
+use axum::extract::Extension;
+use axum::{
+    routing::{get, post},
+    Router,
+};
+use buat_tak_buat_lib::path::*;
+use buat_tak_buat_lib::*;
+use tokio::sync::Mutex;
 
 #[tokio::main]
 async fn main() {
-    // build our application with a single route
-    let app = Router::new().route("/", get(hello_world));
+    let todos = Extension(Arc::new(Mutex::new(TodoData::default())));
 
-    // run it with hyper on localhost:3000
+    let app = Router::new()
+        .route("/", get(index))
+        .route("/add_todo", post(add_todo))
+        .layer(todos);
+
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
         .serve(app.into_make_service())
         .await

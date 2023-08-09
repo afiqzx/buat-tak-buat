@@ -13,4 +13,5 @@ name = "buat_tak_buat_lib"
 [dependencies]
 axum = "0.6.20"
 maud = { version = "0.25.0", features = ["axum"] }
+serde = { version = "1.0.183", features = ["derive"] }
 tokio = { version = "1.29.1", features = ["full"] }
